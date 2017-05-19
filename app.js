@@ -6,6 +6,7 @@
         var recoder =  new Recoder();
         document.querySelector(".recoderButton").onclick = function () {
             recoder.recoder();
+            // recoder.getMadiaStream();
         };
         document.querySelector(".stopRecoderButton").onclick = function () {
             recoder.stop();

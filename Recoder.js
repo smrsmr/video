@@ -16,6 +16,13 @@
                self.buffers.push(event.data);
                console.log(event);
            };
+            var video = document.createElement("video");
+            video.src = window.URL && window.URL.createObjectURL(stream) || stream;
+            video.autoplay = true;
+            document.body.appendChild(video);
+            video.onended = function () {
+                document.body.removeChild(this);
+            };
             self.addEventListener();
         };
         function fail(error) {
@@ -28,13 +35,6 @@
         this.mediaRecoder.onstop = function () {
             var blob = new Blob(self.buffers);
             var url = URL.createObjectURL(blob);
-            var video = document.createElement("video");
-            video.src = url;
-            document.body.appendChild(video);
-            video.autoplay = true;
-            video.onended = function () {
-                document.body.removeChild(this);
-            };
             var downloadButton = document.createElement("a");
             downloadButton.textContent = "保存到本地";
             downloadButton.href = url;
@@ -49,8 +49,10 @@
         this.mediaRecoder.start();
     }
     Recoder.prototype.recoder = function () {
+
         if ( this.mediaRecoder.state == "paused") {
             this.mediaRecoder.resume();
+
         } else {
             this.start();
         }
